@@ -12,6 +12,8 @@ app.use(cors());
 
 const productRoutes = require("./routes/Product");
 const CartRoutes = require("./routes/Cart");
+const AuthRoutes = require("./routes/Auth")
+const UserRoutes = require("./routes/user")
 
 const dbURL =
   "mongodb+srv://bogg:rock1999@cluster0.g89xp.mongodb.net/<bogg>?retryWrites=true&w=majority";
@@ -29,6 +31,9 @@ mongoose
 
 app.use("/api", productRoutes);
 app.use("/api", CartRoutes);
+app.use("/api", AuthRoutes);
+app.use("/api", UserRoutes);
+
 
 const port = process.env.PORT || 7000;
 app.listen(port, () => {
