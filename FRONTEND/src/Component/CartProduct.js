@@ -9,9 +9,9 @@ import { useDispatch } from "react-redux";
 import { getCartData } from "../actions/cartActions";
 import { useState } from "react";
 import CloseIcon from "@material-ui/icons/Close";
-import { IconButton, Snackbar } from "@material-ui/core";
+import { IconButton, MenuItem, Select, Snackbar } from "@material-ui/core";
 
-export default function CartProduct({ data, id }) {
+export default function CartProduct({ data, id, size }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -47,14 +47,13 @@ export default function CartProduct({ data, id }) {
         <div class="mt-2">Rs. {data.price}</div>
         <div class="mt-2">
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Button size="small" style={{ outline: "none", minWidth: "20px" }}>
-              <RemoveIcon />
-            </Button>
-            <div class="mx-2">1</div>
-            <Button size="small" style={{ outline: "none", minWidth: "20px" }}>
-              <AddIcon />
-            </Button>
+            <Select value={size} onChange={() => {}}>
+              <MenuItem value="small">S</MenuItem>
+              <MenuItem value="medium">M</MenuItem>
+              <MenuItem value="large">L</MenuItem>
+            </Select>
           </div>
+
           {loading ? (
             <Button
               size="small"
@@ -64,7 +63,7 @@ export default function CartProduct({ data, id }) {
                 minWidth: "20px",
                 color: "red",
               }}
-              className="mt-1"
+              className="mt-2"
               disabled
             >
               Remove From Cart
@@ -78,7 +77,7 @@ export default function CartProduct({ data, id }) {
                 minWidth: "20px",
                 color: "red",
               }}
-              className="mt-1"
+              className="mt-2"
               onClick={handleRemove}
             >
               Remove From Cart

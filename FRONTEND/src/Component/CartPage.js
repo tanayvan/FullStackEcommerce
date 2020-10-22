@@ -44,7 +44,7 @@ export default function CartPage() {
             style={{ borderRight: "1px solid #eaeaec" }}
           >
             {cartData.map((item) => (
-              <CartProduct data={item.product} id={item._id} />
+              <CartProduct data={item.product} size={item.size} id={item._id} />
             ))}
           </div>
           <div class="col-md-5 col-12 my-3 ">
