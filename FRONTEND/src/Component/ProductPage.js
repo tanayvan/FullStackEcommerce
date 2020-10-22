@@ -6,6 +6,8 @@ import {
   IconButton,
   Snackbar,
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CloseIcon from "@material-ui/icons/Close";
 import DoneIcon from "@material-ui/icons/Done";
@@ -40,6 +42,8 @@ export default function ProductPage({ match }) {
   const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const [size, setSize] = useState("");
+  const [error, setError] = useState("");
   const productDetails = useSelector((state) => state.productDetails);
   const cartDetails = useSelector((state) => state.cartDetails);
 
@@ -52,16 +56,20 @@ export default function ProductPage({ match }) {
   const { cartData } = cartDetails;
 
   const handleClick = async () => {
-    setIsAdded(true);
-    const { data } = await Axios.post(`${API}/api/addtocart/admin`, {
-      product: product._id,
-      size: "s",
-      user: "admin",
-    });
-    if (data) {
-      setIsSuccess(true);
-      setIsAdded(false);
-      dispatch(getCartData());
+    if (size == "") {
+      setError("Please select Size");
+    } else {
+      setIsAdded(true);
+      const { data } = await Axios.post(`${API}/api/addtocart/admin`, {
+        product: product._id,
+        size: size,
+        user: "admin",
+      });
+      if (data) {
+        setIsSuccess(true);
+        setIsAdded(false);
+        dispatch(getCartData());
+      }
     }
   };
 
@@ -126,28 +134,47 @@ export default function ProductPage({ match }) {
 
               {/* Size Start */}
               <div className="mt-3">
+                {error && (
+                  <Alert severity="error">Please Select One size</Alert>
+                )}
+
                 <div class="" style={{ fontSize: "1.8rem" }}>
                   Size :
                 </div>
                 <div class="" style={{ fontSize: "2rem" }}>
                   <button
                     type="button"
-                    class="btn btn-outline-dark btn"
+                    class={`btn ${
+                      size == "small" ? "btn-dark" : "btn-outline-dark"
+                    } btn`}
                     style={{ borderRadius: 25 }}
+                    onClick={() => {
+                      setSize("small");
+                    }}
                   >
                     S
                   </button>
                   <button
                     type="button"
-                    class="btn btn-outline-dark mx-2"
+                    class={`btn ${
+                      size == "medium" ? "btn-dark" : "btn-outline-dark"
+                    } btn mx-2`}
                     style={{ borderRadius: 25 }}
+                    onClick={() => {
+                      setSize("medium");
+                    }}
                   >
                     M
                   </button>
                   <button
                     type="button"
-                    class="btn btn-outline-dark"
+                    class={`btn ${
+                      size == "large" ? "btn-dark" : "btn-outline-dark"
+                    } btn mx-2`}
                     style={{ borderRadius: 25 }}
+                    onClick={() => {
+                      setSize("large");
+                    }}
                   >
                     L
                   </button>
