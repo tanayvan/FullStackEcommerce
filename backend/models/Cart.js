@@ -13,7 +13,8 @@ const CartSchema = new mongoose.Schema(
       required: true,
     },
     user: {
-      type: "string",
+      type: ObjectId,
+      ref:"User"
     },
   },
   { timestamps: true }

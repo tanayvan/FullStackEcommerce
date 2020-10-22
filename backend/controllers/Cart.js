@@ -1,7 +1,9 @@
 const Cart = require("../models/Cart");
 
 exports.addToCart = (req, res) => {
-  const cart = new Cart(req.body);
+  req.body.cart.user = req.profile;
+  const cart = new Cart(req.body.cart);
+  
 
   cart.save((err, cart) => {
     if (err) {
@@ -15,7 +17,6 @@ exports.addToCart = (req, res) => {
 };
 exports.removeFromCart = (req, res) => {
   const id = req.params.id;
-
   Cart.findByIdAndDelete({ _id: id }).exec((err, product) => {
     if (err) {
       return res.status(400).json({
@@ -27,7 +28,7 @@ exports.removeFromCart = (req, res) => {
 };
 
 exports.getCart = (req, res) => {
-  const id = req.params.id;
+  const id = req.profile._id;
   Cart.find({ user: id })
     .populate("product")
     .exec((err, cart) => {
