@@ -39,20 +39,20 @@ a:hover {
   margin: 0;
   padding: 0;
 }
-li {
+.navbar-links li {
   list-style: none;
   margin: 0 1rem;
 }
-li a {
+.navbar-links li a {
   display: block;
   padding: 1rem;
   font-weight: 400;
   font-size: 1.4rem;
 }
-ul li {
+.navbar-links ul li {
   border-bottom: 3px solid transparent;
 }
-ul li:hover {
+.navbar-links ul li:hover {
   border-bottom: 3px solid black;
   border-radius: 2px;
 }

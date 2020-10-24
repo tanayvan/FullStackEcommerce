@@ -7,6 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import Bag from "../icons/shopping-bag.svg";
+import User from "../icons/user.png";
 import Menu from "../icons/menu.svg";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import { Link } from "react-router-dom";
@@ -36,8 +37,8 @@ export default function Navbar({ count }) {
               <img src={Bag} style={{ height: "1.6rem", width: "2rem" }} />
             </Badge>
           </Link>
-          <Link to="/cart" style={{ margin: "0rem 1rem" }}>
-            <PermIdentityIcon fontSize="large" />
+          <Link to="/login" style={{ margin: "0rem 1rem" }}>
+            <img src={User} style={{ height: "1.6rem", width: "1.6rem" }} />
           </Link>
           <div
             className="menu"

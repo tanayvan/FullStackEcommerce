@@ -3,7 +3,6 @@ const Cart = require("../models/Cart");
 exports.addToCart = (req, res) => {
   req.body.cart.user = req.profile;
   const cart = new Cart(req.body.cart);
-  
 
   cart.save((err, cart) => {
     if (err) {
@@ -11,7 +10,7 @@ exports.addToCart = (req, res) => {
         error: "error saving Product In Cart " + err,
       });
     }
-
+    console.log("success");
     res.json(cart);
   });
 };

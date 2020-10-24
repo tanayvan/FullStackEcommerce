@@ -185,7 +185,8 @@ export default function ProductPage({ match }) {
                 <Button class="btn btn-dark btn-lg btn-block mt-3 " disabled>
                   Loading...
                 </Button>
-              ) : cartData.find((obj) => obj.product._id == product._id) ? (
+              ) : cartData &&
+                cartData.find((obj) => obj.product._id == product._id) ? (
                 <Link to="/cart" class="btn btn-dark btn-lg btn-block mt-3">
                   Already In Cart
                 </Link>

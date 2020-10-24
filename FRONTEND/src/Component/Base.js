@@ -14,7 +14,7 @@ export default function Base({ children }) {
   const { cartData } = cartDetails;
   return (
     <div>
-      <Navbar count={cartData.length} />
+      <Navbar count={cartData && cartData.length} />
       {children}
       <div
         class="footer mt-5"

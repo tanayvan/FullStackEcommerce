@@ -7,11 +7,14 @@ const router = express.Router();
 router.post(
   "/signup",
   [
-    check("email", "Enter valid email").isEmail(),
-    check("firstName", "firstName must be at least 3 chars long").isLength({
+    check("name", "Name must be at least 3 chars long:name").isLength({
       min: 3,
     }),
-    check("password", "password must be at least 5 chars long").isLength({
+    check("email", "Enter valid email:email").isEmail(),
+    check(
+      "password",
+      "password must be at least 5 chars long:password"
+    ).isLength({
       min: 5,
     }),
   ],
