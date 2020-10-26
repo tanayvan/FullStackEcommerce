@@ -36,12 +36,13 @@ exports.signin = (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
   User.findOne({ email }, (err, user) => {
-    if (err || !user) {
+    if (err) {
       return res.status(404).json({ error: "user not Found" });
     }
+    {!user && res.status(404).json({ error: "user not Found:email" }) }
     if (!user.authenticate(password)) {
       return res.status(401).json({
-        error: "Email and Password does not match",
+        error: "Invalid password:password",
       });
     }
     const token = jwt.sign({ _id: user._id }, "E-comm");
