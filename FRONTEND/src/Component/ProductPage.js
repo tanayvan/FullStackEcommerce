@@ -32,7 +32,7 @@ import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { API } from "../constants/API";
 
@@ -44,6 +44,7 @@ export default function ProductPage({ match }) {
   const [isAdded, setIsAdded] = useState(false);
   const [size, setSize] = useState("");
   const [error, setError] = useState("");
+  const [redirect, setRedirect] = useState(false);
   const productDetails = useSelector((state) => state.productDetails);
   const cartDetails = useSelector((state) => state.cartDetails);
 
@@ -55,24 +56,50 @@ export default function ProductPage({ match }) {
   const { loading, product } = productDetails;
   const { cartData } = cartDetails;
 
-  const handleClick = async () => {
-    if (size == "") {
-      setError("Please select Size");
-    } else {
-      setIsAdded(true);
-      const { data } = await Axios.post(`${API}/api/addtocart/admin`, {
-        product: product._id,
-        size: size,
-        user: "admin",
-      });
-      if (data) {
-        setIsSuccess(true);
-        setIsAdded(false);
-        dispatch(getCartData());
-      }
-    }
+  const addToCart = (userId, token, pid, size) => {
+    return fetch(`${API}/api/addtocart/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        cart: {
+          product: pid,
+          size: size,
+        },
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .catch((err) => console.log(err));
   };
 
+  const handleClick = async () => {
+    const user = JSON.parse(localStorage.getItem("jwt"));
+    if (!user) {
+      setRedirect(true);
+    }
+    if (size == "") {
+      setError("Please select Size");
+    }
+    if (user) {
+      setIsAdded(true);
+
+      addToCart(user._id, user.token, product._id, size).then((data) => {
+        console.log(data);
+        if (!data.error) {
+          setIsSuccess(true);
+          setIsAdded(false);
+          dispatch(getCartData());
+        }
+      });
+    }
+  };
+  if (redirect) {
+    return <Redirect to="/login" />;
+  }
   if (loading) {
     return (
       <Base>

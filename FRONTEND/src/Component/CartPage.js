@@ -7,16 +7,26 @@ import CartProduct from "./CartProduct";
 
 export default function CartPage() {
   const [isOrdered, setIsOrdered] = useState(false);
-
+  const [redirect, setRedirect] = useState(false);
+  var total = 0; //total price of cart
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    const userToken = JSON.parse(localStorage.getItem("jwt"));
+    if (!userToken) {
+      setRedirect(true);
+    }
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
+
     dispatch(getCartData());
   }, [dispatch]);
   const cartDetails = useSelector((state) => state.cartDetails);
   const { error, loading, cartData } = cartDetails;
 
+  if (redirect) {
+    return <Redirect to="/login" />;
+  }
   if (isOrdered) {
     return <Redirect to="/checkout" />;
   }
@@ -59,7 +69,12 @@ export default function CartPage() {
                   className="m-2"
                 >
                   <div class="">Total Mrp :</div>
-                  <div>₹4999</div>
+                  <div>
+                    {cartData.map((item) => {
+                      total = total + item.product.price;
+                    })}
+                    ₹{total}
+                  </div>
                 </div>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -77,7 +92,7 @@ export default function CartPage() {
                 <div class="" style={{ fontWeight: "700" }}>
                   Total Amount
                 </div>
-                <div style={{ fontWeight: "700" }}>₹5099</div>
+                <div style={{ fontWeight: "700" }}>₹{total + 100}</div>
               </div>
             </div>
             <button

@@ -58,7 +58,7 @@ export default function Signup() {
       });
   };
   if (redirect) {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
   return (
     <Base>

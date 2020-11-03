@@ -8,6 +8,7 @@ import animationData from "../icons/25973-loading-dots.json";
 
 import ourphoto from "../icons/ourpic.jpg";
 import Base from "./Base";
+import { motion } from "framer-motion";
 
 export default function Homepage() {
   const dispatch = useDispatch();

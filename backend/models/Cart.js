@@ -14,7 +14,8 @@ const CartSchema = new mongoose.Schema(
     },
     user: {
       type: ObjectId,
-      ref:"User"
+      ref: "User",
+      required: true,
     },
   },
   { timestamps: true }

@@ -8,6 +8,7 @@ import CheckOut from "./Component/CheckOut";
 import PaymentSuccessPage from "./Component/PaymentSuccessPage";
 import Signup from "./Component/Signup";
 import Login from "./Component/Login";
+import Dashboard from "./Component/Dashboard";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/checkout" component={CheckOut} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
+        <Route exact path="/dashboard" component={Dashboard} />
         <Route
           exact
           path="/paymentsuccessfull"

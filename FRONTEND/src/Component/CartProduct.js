@@ -19,7 +19,19 @@ export default function CartProduct({ data, id, size }) {
     console.log(id);
     setLoading(true);
     const deletedProduct = await axios.delete(
-      `${API}/api/removefromcart/${id}`
+      `${API}/api/removefromcart/${id}/${
+        JSON.parse(localStorage.getItem("jwt"))._id
+      }`,
+
+      {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("jwt")).token
+          }`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
     );
     if (deletedProduct) {
       setIsDeleted(true);

@@ -18,8 +18,7 @@ a:hover {
   text-decoration: none;
 }
 .company {
-  font-size: 2rem;
-  font-size: 400;
+  font-size: 1.5rem;
 }
 .nav-container {
   display: flex;
@@ -72,6 +71,9 @@ a:hover {
 
 @media (max-width: 600px) {
   .navbar-links {
+    display: none;
+  }
+  .resp-icon {
     display: none;
   }
   .menu {

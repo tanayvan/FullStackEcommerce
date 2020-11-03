@@ -39,7 +39,9 @@ exports.signin = (req, res) => {
     if (err) {
       return res.status(404).json({ error: "user not Found" });
     }
-    {!user && res.status(404).json({ error: "user not Found:email" }) }
+    {
+      !user && res.status(404).json({ error: "user not Found:email" });
+    }
     if (!user.authenticate(password)) {
       return res.status(401).json({
         error: "Invalid password:password",

@@ -3,55 +3,58 @@ import React from "react";
 import Base from "./Base";
 import login from "../icons/login.svg";
 import { useState } from "react";
-import { Link , Redirect} from "react-router-dom";
-import {API} from "../constants/API"
+import { Link, Redirect } from "react-router-dom";
+import { API } from "../constants/API";
 
 export default function Login() {
   const [values, setValues] = useState({
     email: "",
     password: "",
-    error :{ email : false, password: false}
+    error: { email: false, password: false },
   });
-  const [errorMessage, setErrorMessage] = useState('')
-  const [redirect, setRedirect] = useState(false)
-  
-  const onLogin = (user) =>{
-    return fetch(`${API}/api/signin`,{
-      method:"POST",
-      headers:{ 
-        Accept : "application/json",
-        "Content-Type":"application/json",
-      },
-      body:JSON.stringify(user)
-    }).then(response =>{
-      return response.json()
-    }).catch(error=>{
-      console.log(error);
-    })
-  }
+  const [errorMessage, setErrorMessage] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
-  const handleSubmit = () =>{
+  const onLogin = (user) => {
+    return fetch(`${API}/api/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSubmit = () => {
     onLogin({
-      email : values.email,
+      email: values.email,
       password: values.password,
-    }).then(data=>{
-      if(!data.error){
-        localStorage.setItem("Token",data.token)
-        setRedirect(true)
-      }else{
+    }).then((data) => {
+      console.log(data);
+      if (!data.error) {
+        localStorage.setItem("jwt", JSON.stringify(data));
+        setRedirect(true);
+      } else {
         let errorData = String(data.error).split(":");
-        setValues({ ...values,error:{[errorData[1]]:true}})
+        setValues({ ...values, error: { [errorData[1]]: true } });
         setErrorMessage(errorData[0]);
       }
-    })
-  }
+    });
+  };
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
-  
-  if(redirect){
-    return <Redirect to="/"/>
+
+  if (redirect) {
+    return <Redirect to="/" />;
   }
 
   return (
@@ -83,7 +86,12 @@ export default function Login() {
               error={values.error.password}
               helperText={values.error.password && errorMessage}
             />
-            <div class="btn btn-dark mt-5 btn-block" onClick={() => {handleSubmit()}}>
+            <div
+              class="btn btn-dark mt-5 btn-block"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
               Login
             </div>
             <div className="mt-3">
